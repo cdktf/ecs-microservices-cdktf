@@ -32,10 +32,10 @@ jobs:
         uses: hashicorp/terraform-cdk-action@v0.1.0
         env:
             CDKTF_ECS_TFC_ORGANIZATION: cdktf-team
+            TF_TOKEN_app_terraform_io: ${{ secrets.TFC_API_TOKEN }}
         with:
           terraformVersion: 1.4.6
           cdktfVersion: 0.16.1
           stackName: ecs-microservices-cdktf
           mode: plan-only
-          terraformCloudToken: ${{ secrets.TFC_API_TOKEN }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
