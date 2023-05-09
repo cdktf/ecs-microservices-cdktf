@@ -135,8 +135,8 @@ class MyStack extends TerraformStack {
     )
 
     // Metrics
-    new DatadogProvider(this, "datadog")
-    new DDClusterCpuMonitor(this, "cluster_cpu_monitor", vars, cluster.name)
+    // new DatadogProvider(this, "datadog")
+    // new DDClusterCpuMonitor(this, "cluster_cpu_monitor", vars, cluster.name)
 
     // Outputs
     new TerraformOutput(this, "client_service_endpoint", {
