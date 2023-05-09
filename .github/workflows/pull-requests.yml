@@ -30,6 +30,8 @@ jobs:
 
       - name: Run Terraform CDK
         uses: hashicorp/terraform-cdk-action@v0.1.0
+        env:
+            CDKTF_ECS_TFC_ORGANIZATION: cdktf-team
         with:
           terraformVersion: 1.4.6
           cdktfVersion: 0.16.1
