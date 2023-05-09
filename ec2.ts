@@ -1,19 +1,20 @@
-import { ec2, vpc } from "@cdktf/provider-aws"
-import { DataAwsSsmParameter } from "@cdktf/provider-aws/lib/ssm"
+import { Instance } from "@cdktf/provider-aws/lib/instance"
+import { NatGateway } from "@cdktf/provider-aws/lib/nat-gateway"
+import { DataAwsSsmParameter } from "@cdktf/provider-aws/lib/data-aws-ssm-parameter";
 import { Fn } from "cdktf"
 import { Construct } from "constructs"
 import { Tfvars } from "./variables"
 import { readFileSync } from 'fs'
 
 export class Database extends Construct {
-  public instance: ec2.Instance
+  public instance: Instance
   constructor(
     scope: Construct,
     name: string,
     vars: Tfvars,
     subnetId: string,
     securityGroupId: string,
-    natGateway: vpc.NatGateway
+    natGateway: NatGateway
   ) {
     super(scope, name)
 
@@ -23,7 +24,7 @@ export class Database extends Construct {
       name: "/aws/service/canonical/ubuntu/server/18.04/stable/current/amd64/hvm/ebs-gp2/ami-id"
     }).value
 
-    this.instance = new ec2.Instance(this, name, {
+    this.instance = new Instance(this, name, {
       ami,
       instanceType: "t2.micro",
       vpcSecurityGroupIds: [securityGroupId],

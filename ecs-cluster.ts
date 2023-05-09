@@ -1,5 +1,5 @@
-import { ecs } from "@cdktf/provider-aws"
 import { Fn } from "cdktf"
+import * as ecs from '@cdktf/provider-aws/lib/ecs-cluster';
 import { Construct } from "constructs"
 import { Tfvars } from "./variables"
 

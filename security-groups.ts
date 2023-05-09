@@ -1,14 +1,15 @@
-import { vpc } from "@cdktf/provider-aws"
 import { Fn } from "cdktf"
+import { SecurityGroup } from "@cdktf/provider-aws/lib/security-group"
+import { SecurityGroupRule } from "@cdktf/provider-aws/lib/security-group-rule"
 import { Construct } from "constructs"
 import { Tfvars } from "./variables"
 
 export class SecurityGroups extends Construct {
-  public clientAlb: vpc.SecurityGroup
-  public clientService: vpc.SecurityGroup
-  public upstreamServiceAlb: vpc.SecurityGroup
-  public upstreamService: vpc.SecurityGroup
-  public database: vpc.SecurityGroup
+  public clientAlb: SecurityGroup
+  public clientService: SecurityGroup
+  public upstreamServiceAlb: SecurityGroup
+  public upstreamService: SecurityGroup
+  public database: SecurityGroup
   
   constructor(
     scope: Construct,
@@ -25,7 +26,7 @@ export class SecurityGroups extends Construct {
       securityGroupId: string,
       constructId: string
     ) => (
-      new vpc.SecurityGroupRule(this, constructId, {
+      new SecurityGroupRule(this, constructId, {
         securityGroupId,
         type: "ingress",
         protocol: "tcp",
@@ -42,7 +43,7 @@ export class SecurityGroups extends Construct {
       securityGroupId: string,
       constructId: string
     ) => (
-      new vpc.SecurityGroupRule(this, constructId, {
+      new SecurityGroupRule(this, constructId, {
         securityGroupId,
         type: "egress",
         protocol: "-1",
@@ -58,7 +59,7 @@ export class SecurityGroups extends Construct {
       securityGroupId: string,
       constructId: string
     ) => (
-      new vpc.SecurityGroupRule(this, constructId, {
+      new SecurityGroupRule(this, constructId, {
         securityGroupId,
         type: "ingress",
         protocol: "-1",
@@ -71,7 +72,7 @@ export class SecurityGroups extends Construct {
 
 
     // Client Application Load Balancer Security Group and Rules
-    this.clientAlb = new vpc.SecurityGroup(this, "client_alb_security_group", {
+    this.clientAlb = new SecurityGroup(this, "client_alb_security_group", {
       namePrefix: `${nameTagPrefix}-ecs-client-alb`,
       description: "security group for client service application load balancer",
       vpcId,
@@ -81,13 +82,13 @@ export class SecurityGroups extends Construct {
 
 
     // Client Service Security Group and Rules
-    this.clientService = new vpc.SecurityGroup(this, "client_service", {
+    this.clientService = new SecurityGroup(this, "client_service", {
       namePrefix: `${nameTagPrefix}-client-service`,
       description: "security group for client service",
       vpcId,
     })
 
-    new vpc.SecurityGroupRule(this, "client_service_allow_alb_9090", {
+    new SecurityGroupRule(this, "client_service_allow_alb_9090", {
       securityGroupId: this.clientService.id,
       type: "ingress",
       protocol: "tcp",
@@ -101,13 +102,13 @@ export class SecurityGroups extends Construct {
 
 
     // Upstream Service ALB Security Group and Rules
-    this.upstreamServiceAlb = new vpc.SecurityGroup(this, "upstream_service_alb", {
+    this.upstreamServiceAlb = new SecurityGroup(this, "upstream_service_alb", {
       namePrefix: `${nameTagPrefix}-upstream-service-alb`,
       description: "security group for upstream services ALB",
       vpcId,
     })
 
-    new vpc.SecurityGroupRule(this, "upstream_service_alb_allow_client_80", {
+    new SecurityGroupRule(this, "upstream_service_alb_allow_client_80", {
       securityGroupId: this.upstreamServiceAlb.id,
       type: "ingress",
       protocol: "tcp",
@@ -120,13 +121,13 @@ export class SecurityGroups extends Construct {
     allowEgressAll(this.upstreamServiceAlb.id, "upstream_service_alb_allow_outbound")
 
     // Upstream Service Security Group and Rules
-    this.upstreamService = new vpc.SecurityGroup(this, "upstream_service", {
+    this.upstreamService = new SecurityGroup(this, "upstream_service", {
       namePrefix: `${nameTagPrefix}-upstream-service`,
       description: "security group for upstream services",
       vpcId,
     })
 
-    new vpc.SecurityGroupRule(this, "upstream_service_allow_alb_9090", {
+    new SecurityGroupRule(this, "upstream_service_allow_alb_9090", {
       securityGroupId: this.upstreamService.id,
       type: "ingress",
       protocol: "tcp",
@@ -140,13 +141,13 @@ export class SecurityGroups extends Construct {
 
 
     // Database Security Group and Rules
-    this.database = new vpc.SecurityGroup(this, "database", {
+    this.database = new SecurityGroup(this, "database", {
       namePrefix: `${nameTagPrefix}-database`,
       description: "security group for the database",
       vpcId,
     })
 
-    new vpc.SecurityGroupRule(this, "database_allow_service_27017", {
+    new SecurityGroupRule(this, "database_allow_service_27017", {
       securityGroupId: this.database.id,
       type: "ingress",
       protocol: "tcp",

@@ -1,10 +1,11 @@
-import { ecs, vpc } from "@cdktf/provider-aws"
 import { Fn } from "cdktf"
+import { EcsService } from "@cdktf/provider-aws/lib/ecs-service"
+import { Subnet } from "@cdktf/provider-aws/lib/subnet"
 import { Construct } from "constructs"
 import { Tfvars } from "./variables"
 
 export class EcsServiceClient extends Construct {
-  public service: ecs.EcsService
+  public service: EcsService
 
   constructor(
     scope: Construct,
@@ -13,14 +14,14 @@ export class EcsServiceClient extends Construct {
     clusterArn: string,
     taskDefinitionArn: string,
     targetGroupArn: string,
-    subnets: vpc.Subnet[],
+    subnets: Subnet[],
     clientSecurityGroupId: string
   ) {
     super(scope, name)
 
     const nameTagPrefix = `${Fn.lookup(vars.defaultTags, "project", "")}`
 
-    this.service = new ecs.EcsService(this, name, {
+    this.service = new EcsService(this, name, {
       name: `${nameTagPrefix}-client`,
       cluster: clusterArn,
       taskDefinition: taskDefinitionArn,
@@ -45,7 +46,7 @@ export class EcsServiceClient extends Construct {
 }
 
 export class EcsServiceUpstream extends Construct {
-  public service: ecs.EcsService
+  public service: EcsService
 
   constructor(
     scope: Construct,
@@ -54,14 +55,14 @@ export class EcsServiceUpstream extends Construct {
     clusterArn: string,
     taskDefinitionArn: string,
     targetGroupArn: string,
-    subnets: vpc.Subnet[],
+    subnets: Subnet[],
     securityGroupId: string
   ) {
     super(scope, name)
 
     const nameTagPrefix = `${Fn.lookup(vars.defaultTags, "project", "")}`
 
-    this.service = new ecs.EcsService(this, name, {
+    this.service = new EcsService(this, name, {
       name: `${nameTagPrefix}-${name}`,
       cluster: clusterArn,
       taskDefinition: taskDefinitionArn,

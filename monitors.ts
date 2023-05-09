@@ -1,6 +1,7 @@
 import { Construct } from "constructs"
 import { Tfvars } from "./variables"
-import { Dashboard, Monitor } from "@cdktf/provider-datadog"
+import { Monitor } from "@cdktf/provider-datadog/lib/monitor"
+import { Dashboard } from "@cdktf/provider-datadog/lib/dashboard"
 import { Fn } from "cdktf"
 
 export class DDClusterCpuMonitor extends Construct {

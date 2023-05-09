@@ -1,10 +1,10 @@
-import { ecs } from "@cdktf/provider-aws"
 import { Fn } from "cdktf"
+import { EcsTaskDefinition } from "@cdktf/provider-aws/lib/ecs-task-definition"
 import { Construct } from "constructs"
 import { Tfvars } from "./variables"
 
 export class EcsTaskDefinitionClient extends Construct {
-  public def: ecs.EcsTaskDefinition
+  public def: EcsTaskDefinition
 
   constructor(
     scope: Construct,
@@ -17,7 +17,7 @@ export class EcsTaskDefinitionClient extends Construct {
 
     const nameTagPrefix = `${Fn.lookup(vars.defaultTags, "project", "")}`
 
-    this.def = new ecs.EcsTaskDefinition(
+    this.def = new EcsTaskDefinition(
       this,
       "task_definition",
       {
@@ -78,7 +78,7 @@ export class EcsTaskDefinitionClient extends Construct {
 }
 
 export class EcsTaskDefinitionGold extends Construct {
-  public def: ecs.EcsTaskDefinition
+  public def: EcsTaskDefinition
   
   constructor(
     scope: Construct,
@@ -90,7 +90,7 @@ export class EcsTaskDefinitionGold extends Construct {
 
     const nameTagPrefix = `${Fn.lookup(vars.defaultTags, "project", "")}`
 
-    this.def = new ecs.EcsTaskDefinition(
+    this.def = new EcsTaskDefinition(
       this,
       "task_definition",
       {
@@ -151,7 +151,7 @@ export class EcsTaskDefinitionGold extends Construct {
 }
 
 export class EcsTaskDefinitionSilver extends Construct {
-  public def: ecs.EcsTaskDefinition
+  public def: EcsTaskDefinition
   
   constructor(
     scope: Construct,
@@ -163,7 +163,7 @@ export class EcsTaskDefinitionSilver extends Construct {
 
     const nameTagPrefix = `${Fn.lookup(vars.defaultTags, "project", "")}`
 
-    this.def = new ecs.EcsTaskDefinition(
+    this.def = new EcsTaskDefinition(
       this,
       "task_definition",
       {

@@ -1,6 +1,6 @@
 import { Construct } from "constructs"
 import { App, TerraformStack, RemoteBackend, TerraformOutput } from "cdktf"
-import { AwsProvider } from "@cdktf/provider-aws"
+import { AwsProvider } from "@cdktf/provider-aws/lib/provider"
 import { Tfvars } from "./variables"
 import { Network } from "./vpc"
 import { SecurityGroups } from "./security-groups"
@@ -11,7 +11,7 @@ import { EcsServiceClient, EcsServiceUpstream } from "./ecs-services"
 import { Database } from "./ec2"
 import { EcsMonitoringIamTaskExecRole } from "./iam"
 import { DDClusterCpuMonitor } from "./monitors"
-import { DatadogProvider } from "@cdktf/provider-datadog"
+import { DatadogProvider } from "@cdktf/provider-datadog/lib/provider"
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {

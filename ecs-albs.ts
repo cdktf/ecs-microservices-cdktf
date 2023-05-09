@@ -1,18 +1,21 @@
-import { elb, vpc } from "@cdktf/provider-aws"
 import { Fn } from "cdktf"
+import { Alb } from "@cdktf/provider-aws/lib/alb"
+import { LbListener } from "@cdktf/provider-aws/lib/lb-listener"
+import { LbTargetGroup } from "@cdktf/provider-aws/lib/lb-target-group"
+import { Subnet } from "@cdktf/provider-aws/lib/subnet"
 import { Construct } from "constructs"
 import { Tfvars } from "./variables"
 
 export class ClientAlb extends Construct {
-  public lb: elb.Alb
-  public targetGroup: elb.LbTargetGroup
-  public listener: elb.LbListener
+  public lb: Alb
+  public targetGroup: LbTargetGroup
+  public listener: LbListener
 
   constructor(
     scope: Construct,
     name: string,
     vars: Tfvars,
-    subnets: vpc.Subnet[],
+    subnets: Subnet[],
     securityGroupId: string,
     vpcId: string
   ) {
@@ -20,7 +23,7 @@ export class ClientAlb extends Construct {
 
     const nameTagPrefix = `${Fn.lookup(vars.defaultTags, "project", "")}`
 
-    this.lb = new elb.Alb(this, "client_alb", {
+    this.lb = new Alb(this, "client_alb", {
       securityGroups: [securityGroupId],
       namePrefix: "cl-",
       loadBalancerType: "application",
@@ -30,7 +33,7 @@ export class ClientAlb extends Construct {
       tags: { Name: `${nameTagPrefix}-client-alb`}
     })
 
-    this.targetGroup = new elb.LbTargetGroup(this, "client_alb_targets", {
+    this.targetGroup = new LbTargetGroup(this, "client_alb_targets", {
       namePrefix: "cl-",
       port: 9090,
       protocol: "HTTP",
@@ -51,7 +54,7 @@ export class ClientAlb extends Construct {
       tags: { Name: `${nameTagPrefix}-client-tg`}
     })
 
-    this.listener = new elb.LbListener(this, "client_alb_http_80", {
+    this.listener = new LbListener(this, "client_alb_http_80", {
       loadBalancerArn: this.lb.arn,
       port: 80,
       protocol: "HTTP",
@@ -67,15 +70,15 @@ export class ClientAlb extends Construct {
 }
 
 export class UpstreamServiceAlb extends Construct {
-  public lb: elb.Alb
-  public targetGroup: elb.LbTargetGroup
-  public listener: elb.LbListener
+  public lb: Alb
+  public targetGroup: LbTargetGroup
+  public listener: LbListener
 
   constructor(
     scope: Construct,
     name: string,
     vars: Tfvars,
-    subnets: vpc.Subnet[],
+    subnets: Subnet[],
     securityGroupId: string,
     vpcId: string
   ) {
@@ -83,7 +86,7 @@ export class UpstreamServiceAlb extends Construct {
 
     const nameTagPrefix = `${Fn.lookup(vars.defaultTags, "project", "")}`
 
-    this.lb = new elb.Alb(this, `${name}_alb`, {
+    this.lb = new Alb(this, `${name}_alb`, {
       securityGroups: [securityGroupId],
       namePrefix: "s-",
       loadBalancerType: "application",
@@ -93,7 +96,7 @@ export class UpstreamServiceAlb extends Construct {
       tags: { Name: `${nameTagPrefix}-${name}-alb`}
     })
 
-    this.targetGroup = new elb.LbTargetGroup(this, `${name}_alb_targets`, {
+    this.targetGroup = new LbTargetGroup(this, `${name}_alb_targets`, {
       namePrefix: "s-",
       port: 9090,
       protocol: "HTTP",
@@ -114,7 +117,7 @@ export class UpstreamServiceAlb extends Construct {
       tags: { Name: `${nameTagPrefix}-${name}-tg`}
     })
 
-    this.listener = new elb.LbListener(this, `${name}_alb_http_80`, {
+    this.listener = new LbListener(this, `${name}_alb_http_80`, {
       loadBalancerArn: this.lb.arn,
       port: 80,
       protocol: "HTTP",
