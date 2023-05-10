@@ -10,7 +10,7 @@ import { ClientAlb, UpstreamServiceAlb } from "./ecs-albs"
 import { EcsServiceUpstream } from "./ecs-services"
 import { Database } from "./ec2"
 import { EcsMonitoringIamTaskExecRole } from "./iam"
-import { ClientEcsService } from "./ecs-services-converted"
+import { ClientService } from "./ecs-services-converted"
 
 export class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
@@ -82,7 +82,7 @@ export class MyStack extends TerraformStack {
       monitoringIamRole.role.arn
     )
 
-    new ClientEcsService(this, "client", {
+    new ClientService(this, "client", {
       ecsClusterArn: cluster.arn,
       clientAlbTargetGroupArn: clientAlb.targetGroup.arn,
       projectTag: "client",

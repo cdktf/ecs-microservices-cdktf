@@ -1,6 +1,6 @@
 import "cdktf/lib/testing/adapters/jest"; // Load types for expect matchers
 import { TerraformStack, Testing } from "cdktf";
-import { ClientEcsService } from "../ecs-services-converted";
+import { ClientService } from "../ecs-services-converted";
 import { EcsService } from "@cdktf/provider-aws/lib/ecs-service";
 import { MyStack } from "../main";
 import { EcsTaskDefinitionClient } from "../ecs-task-definitions";
@@ -14,7 +14,7 @@ describe("My CDKTF Application", () => {
       expect(
         Testing.synthScope(
           (scope) =>
-            new ClientEcsService(scope, "client", {
+            new ClientService(scope, "client", {
               ecsClusterArn: "ecsClusterArn",
               clientAlbTargetGroupArn: "clientAlbTargetGroupArn",
               projectTag: "projectTag",
@@ -29,7 +29,7 @@ describe("My CDKTF Application", () => {
     it("should use the task definition arn", async () => {
       const app = Testing.app();
       const stack = new TerraformStack(app, "test");
-      const service = new ClientEcsService(stack, "client", {
+      const client = new ClientService(stack, "client", {
         ecsClusterArn: "ecsClusterArn",
         clientAlbTargetGroupArn: "clientAlbTargetGroupArn",
         projectTag: "projectTag",
@@ -38,7 +38,7 @@ describe("My CDKTF Application", () => {
         clientTaskDefinitionArn: "clientTaskDefinitionArn",
       });
 
-      expect(service.service.taskDefinitionInput).toEqual(
+      expect(client.service.taskDefinitionInput).toEqual(
         "clientTaskDefinitionArn"
       );
     });
@@ -62,16 +62,17 @@ describe("My CDKTF Application", () => {
         })
       );
     });
-
   });
-  
+
   it("should have execution role with the right permissions", async () => {
     const app = Testing.app();
-      const stack = new MyStack(app, "test");
+    const stack = new MyStack(app, "test");
 
-      const iamPolicyDocDatasource = stack.node.findChild("task-monitoring-role").node.findChild("monitoring-permissions") as DataAwsIamPolicyDocument;
-      
-      expect(iamPolicyDocDatasource.statementInput).toMatchInlineSnapshot(`
+    const iamPolicyDocDatasource = stack.node
+      .findChild("task-monitoring-role")
+      .node.findChild("monitoring-permissions") as DataAwsIamPolicyDocument;
+
+    expect(iamPolicyDocDatasource.statementInput).toMatchInlineSnapshot(`
 Array [
   Object {
     "actions": Array [
@@ -86,7 +87,7 @@ Array [
   },
 ]
 `);
-  })
+  });
 
   // // All Unit tests test the synthesised terraform code, it does not create real-world resources
   // describe("Unit testing using assertions", () => {

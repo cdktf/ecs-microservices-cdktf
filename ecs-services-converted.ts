@@ -12,7 +12,7 @@ interface ClientEcsServiceConfig {
   clientTaskDefinitionArn: string;
 }
 
-export class ClientEcsService extends constructs.Construct {
+export class ClientService extends constructs.Construct {
   service: EcsService;
   constructor(
     scope: constructs.Construct,
