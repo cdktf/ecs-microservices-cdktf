@@ -4,10 +4,6 @@ import "cdktf/lib/testing/adapters/jest"; // Load types for expect matchers
 describe("My CDKTF Application", () => {
   // The tests below are example tests, you can find more information at
   // https://cdk.tf/testing
-  it("should not fail", () => {
-    throw new Error("simulating a failure");
-  });
-
   it.todo("should be tested");
 
   // // All Unit tests test the synthesised terraform code, it does not create real-world resources
