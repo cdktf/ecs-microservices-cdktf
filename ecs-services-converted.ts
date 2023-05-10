@@ -30,7 +30,7 @@ export class ClientEcsService extends constructs.Construct {
           targetGroupArn: config.clientAlbTargetGroupArn,
         },
       ],
-      name: "${" + config.projectTag + "}-client",
+      name: `${config.projectTag}-client`,
       networkConfiguration: {
         assignPublicIp: false,
         securityGroups: [config.clientSecurityGroupId],
