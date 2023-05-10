@@ -7,11 +7,10 @@ import { SecurityGroups } from "./security-groups"
 import { EcsCluster } from "./ecs-cluster"
 import { EcsTaskDefinitionClient, EcsTaskDefinitionGold, EcsTaskDefinitionSilver } from "./ecs-task-definitions"
 import { ClientAlb, UpstreamServiceAlb } from "./ecs-albs"
-import { EcsServiceClient, EcsServiceUpstream } from "./ecs-services"
+import { EcsServiceUpstream } from "./ecs-services"
 import { Database } from "./ec2"
 import { EcsMonitoringIamTaskExecRole } from "./iam"
-// import { DDClusterCpuMonitor } from "./monitors"
-// import { DatadogProvider } from "@cdktf/provider-datadog/lib/provider"
+import { ClientEcsService } from "./ecs-services-converted"
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
@@ -83,16 +82,14 @@ class MyStack extends TerraformStack {
       monitoringIamRole.role.arn
     )
 
-    new EcsServiceClient(
-      this,
-      "client",
-      vars,
-      cluster.arn,
-      clientTaskDefinition.def.arn,
-      clientAlb.targetGroup.arn,
-      vpc.privateSubnets,
-      securityGroups.clientService.id,
-    )
+    new ClientEcsService(this, "client", {
+      ecsClusterArn: cluster.arn,
+      clientAlbTargetGroupArn: clientAlb.targetGroup.arn,
+      projectTag: "client",
+      clientSecurityGroupId: securityGroups.clientService.id,
+      subnetIds: vpc.privateSubnets.map(subnet => subnet.id),
+      clientTaskDefinitionArn: clientTaskDefinition.def.arn,
+    });
 
 
     // Gold Service Resources
@@ -133,10 +130,6 @@ class MyStack extends TerraformStack {
       vpc.privateSubnets,
       securityGroups.upstreamService.id
     )
-
-    // Metrics
-    // new DatadogProvider(this, "datadog")
-    // new DDClusterCpuMonitor(this, "cluster_cpu_monitor", vars, cluster.name)
 
     // Outputs
     new TerraformOutput(this, "client_service_endpoint", {
