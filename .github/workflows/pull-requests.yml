@@ -28,6 +28,7 @@ jobs:
         run: yarn test
 
   terraform-plan:
+    needs: unit-tests # only run if unit tests succeeded
     name: "Run a plan"
     runs-on: ubuntu-latest
     steps:
