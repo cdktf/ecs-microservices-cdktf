@@ -12,7 +12,7 @@ import { Database } from "./ec2"
 import { EcsMonitoringIamTaskExecRole } from "./iam"
 import { ClientEcsService } from "./ecs-services-converted"
 
-class MyStack extends TerraformStack {
+export class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
 
