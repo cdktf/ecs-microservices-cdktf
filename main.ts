@@ -10,8 +10,8 @@ import { ClientAlb, UpstreamServiceAlb } from "./ecs-albs"
 import { EcsServiceClient, EcsServiceUpstream } from "./ecs-services"
 import { Database } from "./ec2"
 import { EcsMonitoringIamTaskExecRole } from "./iam"
-import { DDClusterCpuMonitor } from "./monitors"
-import { DatadogProvider } from "@cdktf/provider-datadog/lib/provider"
+// import { DDClusterCpuMonitor } from "./monitors"
+// import { DatadogProvider } from "@cdktf/provider-datadog/lib/provider"
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
