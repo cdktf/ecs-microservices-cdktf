@@ -7,11 +7,12 @@ import { SecurityGroups } from "./security-groups"
 import { EcsCluster } from "./ecs-cluster"
 import { EcsTaskDefinitionClient, EcsTaskDefinitionGold, EcsTaskDefinitionSilver } from "./ecs-task-definitions"
 import { ClientAlb, UpstreamServiceAlb } from "./ecs-albs"
-import { EcsServiceClient, EcsServiceUpstream } from "./ecs-services"
+import { EcsServiceUpstream } from "./ecs-services"
 import { Database } from "./ec2"
 import { EcsMonitoringIamTaskExecRole } from "./iam"
+import { ClientEcsService } from "./ecs-service-converted"
 
-class MyStack extends TerraformStack {
+export class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
 
@@ -81,7 +82,14 @@ class MyStack extends TerraformStack {
       monitoringIamRole.role.arn
     )
 
-    // TODO: add ClientEcsService based on ecs-service.tf
+    new ClientEcsService(this, "client", {
+      ecsClusterArn: cluster.arn,
+      clientAlbTargetGroupArn: clientAlb.targetGroup.arn,
+      projectTag: "client",
+      clientSecurityGroupId: securityGroups.clientService.id,
+      subnetIds: vpc.privateSubnets.map(subnet => subnet.id),
+      clientTaskDefinitionArn: clientTaskDefinition.def.arn,
+    });
 
     // Gold Service Resources
     const goldTaskDefinition = new EcsTaskDefinitionGold(
