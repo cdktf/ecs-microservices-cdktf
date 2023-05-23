@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@cdktf/provider-aws": "^14.0.4",
-    "@cdktf/provider-datadog": "^6.0.3",
     "cdktf": "^0.16.1",
     "constructs": "^10.1.80"
   },

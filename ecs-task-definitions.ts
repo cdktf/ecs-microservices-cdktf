@@ -56,20 +56,6 @@ export class EcsTaskDefinitionClient extends Construct {
                 value: upstreamUriString
               }
             ],
-          },
-          {
-            name: "datadog-agent",
-            image: "public.ecr.aws/datadog/agent:latest",
-            environment: [
-              {
-                name: "DD_API_KEY",
-                value: `${process.env.DD_API_KEY}`
-              },
-              {
-                name: "ECS_FARGATE",
-                value: "true" // https://github.com/aws/amazon-ecs-agent/issues/2571, seems that unmarshal in Go doesn't allow for straight booleans
-              }
-            ]
           }
         ]),
       }
@@ -129,20 +115,6 @@ export class EcsTaskDefinitionGold extends Construct {
                 value: `http://${vars.databasePrivateIp}:27017`
               }
             ],
-          },
-          {
-            name: "datadog-agent",
-            image: "public.ecr.aws/datadog/agent:latest",
-            environment: [
-              {
-                name: "DD_API_KEY",
-                value: `${process.env.DD_API_KEY}`
-              },
-              {
-                name: "ECS_FARGATE",
-                value: "true" // https://github.com/aws/amazon-ecs-agent/issues/2571, seems that unmarshal in Go doesn't allow for straight booleans
-              }
-            ]
           }
         ]),
       }
@@ -202,20 +174,6 @@ export class EcsTaskDefinitionSilver extends Construct {
                 value: `http://${vars.databasePrivateIp}:27017`
               }
             ],
-          },
-          {
-            name: "datadog-agent",
-            image: "public.ecr.aws/datadog/agent:latest",
-            environment: [
-              {
-                name: "DD_API_KEY",
-                value: `${process.env.DD_API_KEY}`
-              },
-              {
-                name: "ECS_FARGATE",
-                value: "true" // https://github.com/aws/amazon-ecs-agent/issues/2571, seems that unmarshal in Go doesn't allow for straight booleans
-              }
-            ]
           }
         ]),
       }

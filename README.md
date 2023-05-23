@@ -76,6 +76,5 @@ Terraform and CDKT for Terraform are used to provision the infrastructure.  Terr
 
 6. Optionally add `/ui` to your `client_service_endpoint` to see a visualization of your services.
 
-7. Optionally visit your Datadog account to see your monitor and dashboard for cluster CPU usage.
 ---
 

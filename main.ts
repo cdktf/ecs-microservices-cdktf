@@ -10,8 +10,6 @@ import { ClientAlb, UpstreamServiceAlb } from "./ecs-albs"
 import { EcsServiceClient, EcsServiceUpstream } from "./ecs-services"
 import { Database } from "./ec2"
 import { EcsMonitoringIamTaskExecRole } from "./iam"
-// import { DDClusterCpuMonitor } from "./monitors"
-// import { DatadogProvider } from "@cdktf/provider-datadog/lib/provider"
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
@@ -133,10 +131,6 @@ class MyStack extends TerraformStack {
       vpc.privateSubnets,
       securityGroups.upstreamService.id
     )
-
-    // Metrics
-    // new DatadogProvider(this, "datadog")
-    // new DDClusterCpuMonitor(this, "cluster_cpu_monitor", vars, cluster.name)
 
     // Outputs
     new TerraformOutput(this, "client_service_endpoint", {
