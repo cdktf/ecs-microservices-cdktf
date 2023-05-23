@@ -45,6 +45,7 @@ export class EcsMonitoringIamTaskExecRole extends Construct {
               "ecs:ListClusters",
               "ecs:ListContainerInstances",
               "ecs:DescribeContainerInstances",
+              "logs:DescribeLogStreams"
             ],
             resources: ["*"],
           },

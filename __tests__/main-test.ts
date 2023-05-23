@@ -1,87 +1,70 @@
 import "cdktf/lib/testing/adapters/jest"; // Load types for expect matchers
-// import { Testing } from "cdktf";
+import { TerraformStack, Testing } from "cdktf";
+import { ClientEcsService } from "../client-ecs-service";
+import { MyStack } from "../main";
+import { EcsTaskDefinitionClient } from "../ecs-task-definitions";
+import { DataAwsIamPolicyDocument } from "@cdktf/provider-aws/lib/data-aws-iam-policy-document";
 
 describe("My CDKTF Application", () => {
-  // The tests below are example tests, you can find more information at
-  // https://cdk.tf/testing
-  it.todo("should be tested");
+  it("should use the task definition arn", async () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, "test");
+    const client = new ClientEcsService(stack, "client", {
+      ecsClusterArn: "ecsClusterArn",
+      clientAlbTargetGroupArn: "clientAlbTargetGroupArn",
+      projectTag: "projectTag",
+      clientSecurityGroupId: "clientSecurityGroupId",
+      subnetIds: ["subnetAId"],
+      clientTaskDefinitionArn: "clientTaskDefinitionArn",
+    });
 
-  // // All Unit tests test the synthesised terraform code, it does not create real-world resources
-  // describe("Unit testing using assertions", () => {
-  //   it("should contain a resource", () => {
-  //     // import { Image,Container } from "./.gen/providers/docker"
-  //     expect(
-  //       Testing.synthScope((scope) => {
-  //         new MyApplicationsAbstraction(scope, "my-app", {});
-  //       })
-  //     ).toHaveResource(Container);
+    expect(client.service.taskDefinitionInput).toEqual(
+      "clientTaskDefinitionArn"
+    );
+  });
 
-  //     expect(
-  //       Testing.synthScope((scope) => {
-  //         new MyApplicationsAbstraction(scope, "my-app", {});
-  //       })
-  //     ).toHaveResourceWithProperties(Image, { name: "ubuntu:latest" });
-  //   });
-  // });
+  it("should have task definition with the right execution role", async () => {
+    const app = Testing.app();
+    const stack = new MyStack(app, "test");
+    const output = Testing.synth(stack);
+    const json = JSON.parse(output);
 
-  // describe("Unit testing using snapshots", () => {
-  //   it("Tests the snapshot", () => {
-  //     const app = Testing.app();
-  //     const stack = new TerraformStack(app, "test");
+    const taskDef = stack.node.findChild("client_task_definition");
+    const taskDefId = (taskDef as EcsTaskDefinitionClient).def.friendlyUniqueId;
 
-  //     new TestProvider(stack, "provider", {
-  //       accessKey: "1",
-  //     });
+    expect(json).toHaveProperty(
+      `resource.aws_ecs_task_definition.${taskDefId}`,
+      expect.objectContaining({
+        execution_role_arn: expect.stringContaining(
+          "aws_iam_role.task-monitoring-role_monitoring-task-exec-role"
+        ),
+      })
+    );
+  });
 
-  //     new TestResource(stack, "test", {
-  //       name: "my-resource",
-  //     });
+  it("should have execution role with the right permissions", async () => {
+    const app = Testing.app();
+    const stack = new MyStack(app, "test");
 
-  //     expect(Testing.synth(stack)).toMatchSnapshot();
-  //   });
+    const iamPolicyDocDatasource = stack.node
+      .findChild("task-monitoring-role")
+      .node.findChild("monitoring-permissions") as DataAwsIamPolicyDocument;
 
-  //   it("Tests a combination of resources", () => {
-  //     expect(
-  //       Testing.synthScope((stack) => {
-  //         new TestDataSource(stack, "test-data-source", {
-  //           name: "foo",
-  //         });
-
-  //         new TestResource(stack, "test-resource", {
-  //           name: "bar",
-  //         });
-  //       })
-  //     ).toMatchInlineSnapshot();
-  //   });
-  // });
-
-  // describe("Checking validity", () => {
-  //   it("check if the produced terraform configuration is valid", () => {
-  //     const app = Testing.app();
-  //     const stack = new TerraformStack(app, "test");
-
-  //     new TestDataSource(stack, "test-data-source", {
-  //       name: "foo",
-  //     });
-
-  //     new TestResource(stack, "test-resource", {
-  //       name: "bar",
-  //     });
-  //     expect(Testing.fullSynth(app)).toBeValidTerraform();
-  //   });
-
-  //   it("check if this can be planned", () => {
-  //     const app = Testing.app();
-  //     const stack = new TerraformStack(app, "test");
-
-  //     new TestDataSource(stack, "test-data-source", {
-  //       name: "foo",
-  //     });
-
-  //     new TestResource(stack, "test-resource", {
-  //       name: "bar",
-  //     });
-  //     expect(Testing.fullSynth(app)).toPlanSuccessfully();
-  //   });
-  // });
+    expect(iamPolicyDocDatasource.statementInput).toMatchInlineSnapshot(`
+Array [
+  Object {
+    "actions": Array [
+      "ecs:ListClusters",
+      "ecs:ListContainerInstances",
+      "ecs:DescribeContainerInstances",
+      "logs:DescribeLogStreams",
+    ],
+    "effect": "Allow",
+    "resources": Array [
+      "*",
+    ],
+  },
+]
+`);
+  });
 });
