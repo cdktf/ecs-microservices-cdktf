@@ -1,6 +1,8 @@
 # AWS ECS Microservices with CDK for Terraform
 
-This project creates a microservice architecture on AWS ECS Fargate with Datadog monitoring using the CDK for Terraform.  It seeks to follow a familiar pattern used by vanilla Terraform projects - flat file structure, declarative paradigm, and simplicity. 
+This project creates a microservice architecture on AWS ECS Fargate using the CDK for Terraform.  It seeks to follow a familiar pattern used by vanilla Terraform projects - flat file structure, declarative paradigm, and simplicity. 
+
+> Note: The architecture mentions DataDog for monitoring which was removed from this example for simplicity reasons – you can find this in the [source repository](https://github.com/jcolemorrison/ecs-microservices-cdktf).
 
 ## The Architecture
 
@@ -18,7 +20,6 @@ For this you'll need 4 things:
 - Terraform Cloud Account
 - Node.js
 - CDKTF
-- Datadog Account and Credentials
 
 Instructions below:
 
@@ -59,21 +60,6 @@ Terraform and CDKT for Terraform are used to provision the infrastructure.  Terr
   ```sh
   # Don't forget to set this!  Used in main.ts @line 153
   $ export CDKTF_ECS_TFC_ORGANIZATION="your TFC organization name"
-  ```
-
-### 3. DataDog Account and Credentials
-
-Datadog is used for monitoring and alerts across your ECS Cluster and Services.
-
-1. Have a [Datadog Account](https://www.datadoghq.com/).
-
-2. Export your[ Datadog API and APP Keys](https://docs.datadoghq.com/account_management/api-app-keys/) as Environment Variables.
-  ```sh
-  # Keys found and created in app.datadoghq.com -> organization settings 
-  # # -> api keys
-  # # -> application keys
-  $ export DD_API_KEY="<your_api_key>"
-  $ export DD_APP_KEY="<your_app_key>"
   ```
 
 ## Deploying the Project
