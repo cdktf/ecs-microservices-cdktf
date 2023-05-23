@@ -7,7 +7,7 @@ import { SecurityGroups } from "./security-groups"
 import { EcsCluster } from "./ecs-cluster"
 import { EcsTaskDefinitionClient, EcsTaskDefinitionGold, EcsTaskDefinitionSilver } from "./ecs-task-definitions"
 import { ClientAlb, UpstreamServiceAlb } from "./ecs-albs"
-import { EcsServiceClient, EcsServiceUpstream } from "./ecs-services"
+import { EcsServiceUpstream } from "./ecs-services"
 import { Database } from "./ec2"
 import { EcsMonitoringIamTaskExecRole } from "./iam"
 
