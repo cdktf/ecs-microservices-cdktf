@@ -81,17 +81,7 @@ class MyStack extends TerraformStack {
       monitoringIamRole.role.arn
     )
 
-    new EcsServiceClient(
-      this,
-      "client",
-      vars,
-      cluster.arn,
-      clientTaskDefinition.def.arn,
-      clientAlb.targetGroup.arn,
-      vpc.privateSubnets,
-      securityGroups.clientService.id,
-    )
-
+    // TODO: add ClientEcsService based on ecs-service.tf
 
     // Gold Service Resources
     const goldTaskDefinition = new EcsTaskDefinitionGold(
