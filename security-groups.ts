@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { Fn } from "cdktf"
 import { SecurityGroup } from "@cdktf/provider-aws/lib/security-group"
 import { SecurityGroupRule } from "@cdktf/provider-aws/lib/security-group-rule"

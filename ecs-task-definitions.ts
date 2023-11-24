@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { Fn } from "cdktf"
 import { EcsTaskDefinition } from "@cdktf/provider-aws/lib/ecs-task-definition"
 import { Construct } from "constructs"

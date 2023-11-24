@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { Construct } from "constructs"
 import { EgressOnlyInternetGateway } from "@cdktf/provider-aws/lib/egress-only-internet-gateway"
 import { Eip } from "@cdktf/provider-aws/lib/eip"

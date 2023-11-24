@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import "cdktf/lib/testing/adapters/jest"; // Load types for expect matchers
 import { TerraformStack, Testing } from "cdktf";
 import { ClientEcsService } from "../client-ecs-service";

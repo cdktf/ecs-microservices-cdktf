@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { Fn } from "cdktf"
 import { Alb } from "@cdktf/provider-aws/lib/alb"
 import { LbListener } from "@cdktf/provider-aws/lib/lb-listener"

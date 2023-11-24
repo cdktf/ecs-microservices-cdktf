@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { Fn } from "cdktf"
 import { EcsService } from "@cdktf/provider-aws/lib/ecs-service"
 import { Subnet } from "@cdktf/provider-aws/lib/subnet"

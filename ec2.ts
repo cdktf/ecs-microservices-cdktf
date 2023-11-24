@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { Instance } from "@cdktf/provider-aws/lib/instance"
 import { NatGateway } from "@cdktf/provider-aws/lib/nat-gateway"
 import { DataAwsSsmParameter } from "@cdktf/provider-aws/lib/data-aws-ssm-parameter";

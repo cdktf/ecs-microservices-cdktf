@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { Fn } from "cdktf"
 import * as ecs from '@cdktf/provider-aws/lib/ecs-cluster';
 import { Construct } from "constructs"
