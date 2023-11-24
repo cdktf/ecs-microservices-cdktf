@@ -1,5 +1,9 @@
 # AWS ECS Microservices with CDK for Terraform
 
+_This repository was created for [demo purposes](https://www.youtube.com/watch?v=kcmq5SvjVVM) and will not be kept up-to-date with future releases of CDK for Terraform (CDKTF); as such, it has been archived and is no longer supported in any way by HashiCorp. You are welcome to try out the archived version of the code in this example project, but there are no guarantees that it will continue to work with newer versions of CDKTF. We do not recommend directly using this sample code in production projects without extensive testing, and HashiCorp disclaims any and all liability resulting from use of this code._
+
+-----
+
 This project creates a microservice architecture on AWS ECS Fargate using the CDK for Terraform.  It seeks to follow a familiar pattern used by vanilla Terraform projects - flat file structure, declarative paradigm, and simplicity. 
 
 > Note: The architecture mentions DataDog for monitoring which was removed from this example for simplicity reasons – you can find this in the [source repository](https://github.com/jcolemorrison/ecs-microservices-cdktf).
